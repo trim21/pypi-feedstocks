@@ -14,5 +14,4 @@ tasks:
         --skip-existing=all \
         --channel=conda-forge \
         --channel=https://repo.prefix.dev/pypi-mirrors \
-        --output-dir=D:/rattler/output \
         --verbose
