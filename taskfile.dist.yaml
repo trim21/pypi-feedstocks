@@ -1,0 +1,18 @@
+version: 3
+
+tasks:
+  render:
+    cmds:
+      - cmd: python render.py
+      - cmd: dprint fmt
+
+  build:
+    cmd: |
+      rattler-build build \
+        --wrap-log-lines=false \
+        --log-style=plain \
+        --skip-existing=all \
+        --channel=conda-forge \
+        --channel=https://repo.prefix.dev/pypi-mirrors \
+        --output-dir=D:/rattler/output \
+        --verbose
