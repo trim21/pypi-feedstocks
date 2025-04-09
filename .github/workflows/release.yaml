@@ -16,14 +16,13 @@ jobs:
       id-token: write
     runs-on: ubuntu-24.04
     steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
       - uses: actions/download-artifact@95815c38cf2ff2164869cbab79da8d1f422bc89e # v4
         with:
           pattern: conda-*
           path: dist
           merge-multiple: true
-
-      - run: ls dist -ahl
-      - run: tree .
 
       - uses: prefix-dev/setup-pixi@dbaed5efa0bd33d6bd6d162bec8a06d8fc43c807 # v0.8.5
         with:
@@ -33,4 +32,4 @@ jobs:
       - run: pixi global install rattler-build
 
       - name: Upload all packages
-        run: rattler-build upload prefix -c pypi-mirrors dist/*.conda
+        run: bash ci/upload.bash
