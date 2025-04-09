@@ -1,0 +1,39 @@
+context:
+  name: rapidocr-onnxruntime
+  version: '1.4.4'
+
+package:
+  name: ${{name}}
+  version: '${{ version }}'
+
+build:
+  noarch: python
+  number: 0
+  script:
+    interpreter: nu
+    content:
+      - 'PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}'
+
+requirements:
+  build:
+    - nushell
+  host:
+    - python >=3.6,<3.13
+    - pip
+  run:
+    - python >=3.6, <3.13
+
+    - pyclipper>=1.2.0
+    - py-opencv >=4.5.1.48
+    - numpy >=1.19.5,<3.0.0
+    - six>=1.15.0
+    - Shapely >=1.7.1,!=2.0.4
+    - PyYAML
+    - Pillow
+    - onnxruntime >=1.7.0
+    - tqdm
+
+tests:
+  - python:
+      imports:
+        - rapidocr_onnxruntime
