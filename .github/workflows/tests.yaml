@@ -17,7 +17,7 @@ jobs:
   conda:
     uses: ./.github/workflows/_build_conda.yaml
 
-  check-render:
+  lint:
     needs:
       - conda
     runs-on: 'ubuntu-24.04'
@@ -28,13 +28,16 @@ jobs:
         uses: astral-sh/setup-uv@0c5e2b8115b80b4c7c5ddf6ffdd634974642d182 # v5
 
       - run: uv sync --locked
+
+      - run: uv run lint.py
+
       - run: uv run render.py
       - run: uv run dprint fmt
       - run: git diff --exit-code
 
   pass:
     needs:
-      - check-render
+      - lint
       - conda
     runs-on: 'ubuntu-24.04'
     steps:
