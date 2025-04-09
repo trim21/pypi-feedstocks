@@ -33,4 +33,4 @@ jobs:
       - run: pixi global install rattler-build
 
       - name: Upload all packages
-        run: rattler-build upload prefix -c pypi-mirrors dist/**/*.conda
+        run: rattler-build upload prefix -c pypi-mirrors dist/*.conda
