@@ -1,0 +1,37 @@
+name: build conda packages
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    name: Build conda
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - uses: prefix-dev/setup-pixi@8eaba7c61d661f73d558b0b477156b7b62667fa4 # v0.8.4
+        with:
+          pixi-version: v0.44.0
+          run-install: false
+
+      - run: pixi global install rattler-build
+
+      - run: |
+          rattler-build build \
+            --wrap-log-lines=false \
+            --log-style=plain \
+            --skip-existing=all \
+            --channel=conda-forge \
+            --channel=https://repo.prefix.dev/pypi-mirrors \
+            --output-dir=./output \
+            --verbose
+        shell: bash
+
+      - run: ls ./output/
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: 'conda-noarch'
+          path: ./output/noarch/*.conda
+          if-no-files-found: ignore

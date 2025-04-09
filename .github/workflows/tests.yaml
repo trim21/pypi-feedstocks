@@ -1,0 +1,25 @@
+name: tests
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths-ignore:
+      - .github/renovate.json
+      - .pre-commit-config.yaml
+      - readme.md
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  conda:
+    uses: ./.github/workflows/_build_conda.yaml
+
+  test-pass:
+    needs:
+      - conda
+    runs-on: "ubuntu-24.04"
+    steps:
+      - run: "echo success"
