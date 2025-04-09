@@ -91,3 +91,37 @@ outputs:
       - python:
           imports:
             - durationpy
+
+  - context:
+      name: transmission-rpc
+      version: "7.0.11"
+
+    package:
+      name: ${{ name }}
+      version: "${{ version }}"
+
+    build:
+      noarch: python
+      number: 0
+      script:
+        interpreter: nu
+        content:
+          - "PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}"
+
+    requirements:
+      build:
+        - nushell
+      host:
+        - python
+        - pip
+      run:
+        - python
+
+        - requests
+        - certifi
+        - typing_extensions>=4.5.0
+
+    tests:
+      - python:
+          imports:
+            - transmission_rpc
