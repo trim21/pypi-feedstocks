@@ -8,11 +8,11 @@
     {
       "customType": "jsonata",
       "fileMatch": [
-        "^packages/.*\\.yaml?$"
+        "^packages/.*\\.yaml$"
       ],
       "fileFormat": "yaml",
       "matchStrings": [
-        "outputs.{'currentValue': context.version, 'packageName': context.name}"
+        "[{'currentValue': context.version, 'packageName': context.name}]"
       ],
       "datasourceTemplate": "pypi"
     }
