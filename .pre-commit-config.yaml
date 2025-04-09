@@ -1,13 +1,4 @@
 repos:
-  - repo: local
-    hooks:
-      - id: meson
-        name: meson
-        language: python
-        entry: meson format -e -i
-        files: ^(.*/)?(meson\.build|meson\.format)$
-        additional_dependencies: ['meson==1.7.2']
-
   - repo: https://github.com/trim21/dprint-pre-commit
     rev: v0.49.1.1
     hooks:
@@ -16,18 +7,6 @@ repos:
           - toml
           - yaml
           - json
-
-  - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.24.1
-    hooks:
-      - id: validate-pyproject
-        language: python
-        # Optional extra validations from SchemaStore:
-        additional_dependencies:
-          - 'validate-pyproject-schema-store[all]==2025.3.24'
-        args:
-          - --disable
-          - ruff
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
@@ -52,12 +31,6 @@ repos:
       - id: fix-byte-order-marker
         exclude: '.*\.bin'
 
-  - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v20.1.0
-    hooks:
-      - id: clang-format
-        types_or: [c++, c, cuda]
-
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # Ruff version.
     rev: v0.11.4
@@ -67,6 +40,6 @@ repos:
         args: [--fix]
 
   - repo: https://github.com/psf/black
-    rev: '25.1.0'
+    rev: "25.1.0"
     hooks:
       - id: black
