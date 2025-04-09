@@ -27,8 +27,8 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "dprint-py", specifier = ">=0.49.1.2" },
-    { name = "pyyaml", specifier = ">=6.0.2" },
+    { name = "dprint-py", specifier = "==0.49.1.2" },
+    { name = "pyyaml", specifier = "==6.0.2" },
 ]
 
 [[package]]
