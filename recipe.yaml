@@ -1,20 +1,18 @@
 outputs:
-  - context:
-      name: sslog
-      version: "0.0.0a52"
-
-    package:
-      name: ${{ name }}
-      version: "${{ version }}"
-
-    build:
+  - build:
       noarch: python
       number: 0
       script:
-        interpreter: nu
         content:
-          - "PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}"
-
+          - PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{
+            version }}
+        interpreter: nu
+    context:
+      name: durationpy
+      version: '0.9'
+    package:
+      name: ${{ name }}
+      version: ${{ version }}
     requirements:
       build:
         - nushell
@@ -23,29 +21,24 @@ outputs:
         - pip
       run:
         - python
-        - structlog==25.1.0
-
     tests:
       - python:
           imports:
-            - sslog
-
-  - context:
-      name: qbittorrent-api
-      version: "2025.2.0"
-
-    package:
-      name: ${{ name }}
-      version: "${{ version }}"
-
-    build:
+            - durationpy
+  - build:
       noarch: python
       number: 0
       script:
-        interpreter: nu
         content:
-          - "PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}"
-
+          - PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{
+            version }}
+        interpreter: nu
+    context:
+      name: qbittorrent-api
+      version: 2025.2.0
+    package:
+      name: ${{ name }}
+      version: ${{ version }}
     requirements:
       build:
         - nushell
@@ -56,28 +49,24 @@ outputs:
         - python
         - requests
         - packaging
-
     tests:
       - python:
           imports:
             - qbittorrentapi
-
-  - context:
-      name: durationpy
-      version: "0.9"
-
-    package:
-      name: ${{ name }}
-      version: "${{ version }}"
-
-    build:
+  - build:
       noarch: python
       number: 0
       script:
-        interpreter: nu
         content:
-          - "PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}"
-
+          - PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{
+            version }}
+        interpreter: nu
+    context:
+      name: sslog
+      version: 0.0.0a52
+    package:
+      name: ${{ name }}
+      version: ${{ version }}
     requirements:
       build:
         - nushell
@@ -86,28 +75,25 @@ outputs:
         - pip
       run:
         - python
-
+        - structlog==25.1.0
     tests:
       - python:
           imports:
-            - durationpy
-
-  - context:
-      name: transmission-rpc
-      version: "7.0.11"
-
-    package:
-      name: ${{ name }}
-      version: "${{ version }}"
-
-    build:
+            - sslog
+  - build:
       noarch: python
       number: 0
       script:
-        interpreter: nu
         content:
-          - "PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}"
-
+          - PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{
+            version }}
+        interpreter: nu
+    context:
+      name: transmission-rpc
+      version: 7.0.11
+    package:
+      name: ${{ name }}
+      version: ${{ version }}
     requirements:
       build:
         - nushell
@@ -116,11 +102,9 @@ outputs:
         - pip
       run:
         - python
-
         - requests
         - certifi
         - typing_extensions>=4.5.0
-
     tests:
       - python:
           imports:

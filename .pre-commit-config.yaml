@@ -1,0 +1,72 @@
+repos:
+  - repo: local
+    hooks:
+      - id: meson
+        name: meson
+        language: python
+        entry: meson format -e -i
+        files: ^(.*/)?(meson\.build|meson\.format)$
+        additional_dependencies: ['meson==1.7.2']
+
+  - repo: https://github.com/trim21/dprint-pre-commit
+    rev: v0.49.1.1
+    hooks:
+      - id: dprint
+        types_or:
+          - toml
+          - yaml
+          - json
+
+  - repo: https://github.com/abravalheri/validate-pyproject
+    rev: v0.24.1
+    hooks:
+      - id: validate-pyproject
+        language: python
+        # Optional extra validations from SchemaStore:
+        additional_dependencies:
+          - 'validate-pyproject-schema-store[all]==2025.3.24'
+        args:
+          - --disable
+          - ruff
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-case-conflict
+      - id: check-ast
+      - id: check-builtin-literals
+      - id: check-toml
+      - id: check-yaml
+      - id: check-json
+      - id: check-docstring-first
+      - id: check-merge-conflict
+      - id: check-added-large-files # check for file bigger than 500kb
+      - id: debug-statements
+      - id: trailing-whitespace
+        exclude: '.*\.bin'
+      - id: mixed-line-ending
+        args: [--fix=lf]
+        exclude: '.*\.bin'
+      - id: end-of-file-fixer
+        exclude: '.*\.bin'
+      - id: fix-byte-order-marker
+        exclude: '.*\.bin'
+
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v20.1.0
+    hooks:
+      - id: clang-format
+        types_or: [c++, c, cuda]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.11.4
+    hooks:
+      # Run the linter.
+      - id: ruff
+        args: [--fix]
+
+  - repo: https://github.com/psf/black
+    rev: '25.1.0'
+    hooks:
+      - id: black
