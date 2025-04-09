@@ -4,6 +4,11 @@ release some pypi packages to conda ecosystem
 
 <https://prefix.dev/channels/pypi-mirrors>
 
+## policy
+
+- only pure python package
+- if the package is also packed by conda-forge, we will drop it from here
+
 ## packages
 
 |       pypi       | version  |
