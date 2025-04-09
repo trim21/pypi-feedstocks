@@ -10,16 +10,32 @@ on:
       - readme.md
 
 concurrency:
-  group: "${{ github.workflow }}-${{ github.ref }}"
+  group: '${{ github.workflow }}-${{ github.ref }}'
   cancel-in-progress: true
 
 jobs:
   conda:
     uses: ./.github/workflows/_build_conda.yaml
 
-  test-pass:
+  check-render:
     needs:
       - conda
-    runs-on: "ubuntu-24.04"
+    runs-on: 'ubuntu-24.04'
     steps:
-      - run: "echo success"
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
+
+      - run: uv sync --locked
+      - run: uv run render.py
+      - run: uv run dprint fmt
+      - run: git diff --exit-code
+
+  pass:
+    needs:
+      - check-render
+      - conda
+    runs-on: 'ubuntu-24.04'
+    steps:
+      - run: 'echo success'

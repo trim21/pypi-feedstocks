@@ -8,7 +8,7 @@
     {
       "customType": "jsonata",
       "fileMatch": [
-        "^recipe\\.yaml?$"
+        "^packages/.*\\.yaml?$"
       ],
       "fileFormat": "yaml",
       "matchStrings": [

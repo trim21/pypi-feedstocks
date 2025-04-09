@@ -1,0 +1,29 @@
+context:
+  name: durationpy
+  version: '0.9'
+
+package:
+  name: ${{ name }}
+  version: '${{ version }}'
+
+build:
+  noarch: python
+  number: 0
+  script:
+    interpreter: nu
+    content:
+      - 'PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}'
+
+requirements:
+  build:
+    - nushell
+  host:
+    - python
+    - pip
+  run:
+    - python
+
+tests:
+  - python:
+      imports:
+        - durationpy
