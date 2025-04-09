@@ -1,10 +1,10 @@
 context:
   name: transmission-rpc
-  version: "7.0.11"
+  version: '7.0.11'
 
 package:
   name: ${{ name }}
-  version: "${{ version }}"
+  version: '${{ version }}'
 
 build:
   noarch: python
@@ -12,7 +12,7 @@ build:
   script:
     interpreter: nu
     content:
-      - "PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}"
+      - 'PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}'
 
 requirements:
   build:

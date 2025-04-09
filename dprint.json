@@ -2,7 +2,7 @@
   "toml": {},
   "yaml": {
     "formatComments": true,
-    "quotes": "preferDouble"
+    "quotes": "preferSingle"
   },
   "excludes": [
     ".venv/**",

@@ -9,7 +9,7 @@ outputs:
         interpreter: nu
     context:
       name: durationpy
-      version: "0.9"
+      version: '0.9'
     package:
       name: ${{ name }}
       version: ${{ version }}
