@@ -1,0 +1,93 @@
+outputs:
+  - context:
+      name: sslog
+      version: "0.0.0a52"
+
+    package:
+      name: ${{ name }}
+      version: "${{ version }}"
+
+    build:
+      noarch: python
+      number: 0
+      script:
+        interpreter: nu
+        content:
+          - "PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}"
+
+    requirements:
+      build:
+        - nushell
+      host:
+        - python
+        - pip
+      run:
+        - python
+        - structlog==25.1.0
+
+    tests:
+      - python:
+          imports:
+            - sslog
+
+  - context:
+      name: qbittorrent-api
+      version: "2025.2.0"
+
+    package:
+      name: ${{ name }}
+      version: "${{ version }}"
+
+    build:
+      noarch: python
+      number: 0
+      script:
+        interpreter: nu
+        content:
+          - "PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}"
+
+    requirements:
+      build:
+        - nushell
+      host:
+        - python
+        - pip
+      run:
+        - python
+        - requests
+        - packaging
+
+    tests:
+      - python:
+          imports:
+            - qbittorrentapi
+
+  - context:
+      name: durationpy
+      version: "0.9"
+
+    package:
+      name: ${{ name }}
+      version: "${{ version }}"
+
+    build:
+      noarch: python
+      number: 0
+      script:
+        interpreter: nu
+        content:
+          - "PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}"
+
+    requirements:
+      build:
+        - nushell
+      host:
+        - python
+        - pip
+      run:
+        - python
+
+    tests:
+      - python:
+          imports:
+            - durationpy

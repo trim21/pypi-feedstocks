@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "local>trim21/renovate-config"
+  ],
+  "git-submodules": {
+    "enabled": true
+  },
+  "customManagers": [
+    {
+      "customType": "jsonata",
+      "fileMatch": [
+        "^recipe\\.yaml?$"
+      ],
+      "fileFormat": "yaml",
+      "matchStrings": [
+        "outputs.{'currentValue': context.version, 'packageName': context.name}"
+      ],
+      "datasourceTemplate": "pypi"
+    }
+  ]
+}
