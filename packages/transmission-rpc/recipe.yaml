@@ -8,7 +8,7 @@ package:
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script:
     interpreter: nu
     content:
@@ -18,10 +18,10 @@ requirements:
   build:
     - nushell
   host:
-    - python
+    - python ==${{python_build}}
     - pip
   run:
-    - python
+    - python >=${{python_min}}
 
     - requests
     - certifi

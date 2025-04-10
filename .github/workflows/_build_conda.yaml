@@ -23,6 +23,7 @@ jobs:
             --channel=https://repo.prefix.dev/pypi-mirrors \
             --output-dir=./output \
             --verbose \
+            --variant-config=variants.yaml \
             --recipe-dir=packages
         shell: bash
 
