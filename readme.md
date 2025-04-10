@@ -11,10 +11,10 @@ release some pypi packages to conda ecosystem
 
 ## packages
 
-|         pypi         | version  |
-| :------------------: | :------: |
-|      durationpy      |   0.9    |
-|   qbittorrent-api    | 2025.2.0 |
-| rapidocr-onnxruntime |  1.4.4   |
-|        sslog         | 0.0.0a52 |
-|   transmission-rpc   |  7.0.11  |
+|         pypi         | version  | build |
+| :------------------: | :------: | :---: |
+|      durationpy      |   0.9    |   0   |
+|   qbittorrent-api    | 2025.2.0 |   0   |
+| rapidocr-onnxruntime |  1.4.4   |   1   |
+|        sslog         | 0.0.0a52 |   0   |
+|   transmission-rpc   |  7.0.11  |   0   |

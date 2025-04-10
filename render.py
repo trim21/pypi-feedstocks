@@ -25,12 +25,16 @@ readme = project_root.joinpath("readme.in").read_text("utf-8").strip()
 
 lines = [
     "",
-    "| pypi | version |",
-    "| :--: | :-----: |",
+    "| pypi | version | build |",
+    "| :--: | :-----: | :---: |",
 ]
 
 for pkg in outputs:
-    lines.append("| {name} | {version} |".format_map(pkg["context"]))
+    lines.append(
+        "| {name} | {version} | {build} |".format(
+            **pkg["context"], build=pkg["build"]["number"]
+        )
+    )
 
 
 project_root.joinpath("readme.md").write_text(
