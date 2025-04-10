@@ -13,12 +13,9 @@ jobs:
       - uses: prefix-dev/setup-pixi@dbaed5efa0bd33d6bd6d162bec8a06d8fc43c807 # v0.8.5
         with:
           pixi-version: v0.44.0
-          run-install: false
-
-      - run: pixi global install rattler-build
 
       - run: |
-          rattler-build build \
+          pixi run rattler-build build \
             --wrap-log-lines=false \
             --log-style=plain \
             --skip-existing=all \
