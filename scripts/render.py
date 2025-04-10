@@ -1,7 +1,7 @@
 import yaml
 import pathlib
 
-project_root = pathlib.Path(__file__).parent
+project_root = pathlib.Path(__file__).parent.parent
 
 
 packages = project_root.joinpath("packages")

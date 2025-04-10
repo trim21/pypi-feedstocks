@@ -3,7 +3,7 @@ version: 3
 tasks:
   render:
     cmds:
-      - cmd: python render.py
+      - cmd: python scripts/render.py
       - cmd: dprint fmt
 
   build:
