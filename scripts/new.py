@@ -1,11 +1,11 @@
 import dataclasses
 import pathlib
-from typing import Any, Optional
+from typing import Annotated, Any, Optional
 
 import click
 import httpx
-import msgspec
 import pkginfo
+import pydantic
 import yaml
 from packaging.requirements import Requirement
 from packaging.version import Version
@@ -22,17 +22,18 @@ class PypiInfo:
     project_url: str | None
 
 
-class Release(msgspec.Struct):
+@dataclasses.dataclass(frozen=True, slots=True, kw_only=True)
+class Release:
     # comment_text: str
     # downloads: int
     filename: str
     has_sig: bool
     md5_digest: str
-    package_type: str = msgspec.field(name="packagetype")
+    package_type: Annotated[str, pydantic.Field(alias="packagetype")]
     python_version: str
     size: int
     url: str
-    requires_python: str = ""
+    requires_python: str | None
     yanked: Optional[bool] = None
     yanked_reason: Optional[Any] = None
 
@@ -65,7 +66,7 @@ def main(packages: list[str]):
 
     for package in packages:
         data = client.get(f"https://pypi.org/pypi/{package}/json")
-        pkg = msgspec.json.decode(data.text, type=Pypi)
+        pkg = pydantic.TypeAdapter(Pypi).validate_json(data.text)
         print(pkg.info.name)
         recipe = project_root.joinpath("packages", pkg.info.name, "recipe.yaml")
         recipe.parent.mkdir(exist_ok=True)
@@ -84,7 +85,9 @@ def build_recipe(pkg: Pypi) -> Any:
 
     if len(latest_releases) != 1:
         raise Exception(
-            "unexpected release counts: ", len(latest_releases), latest_releases
+            "unexpected release counts: ",
+            len(latest_releases),
+            [p.filename for p in latest_releases],
         )
 
     wheel = latest_releases[0]
@@ -126,11 +129,11 @@ def build_recipe(pkg: Pypi) -> Any:
         "requirements": {
             "build": ["nushell"],
             "host": [
-                quoted(normalize_spec("python" + wheel.requires_python)),
+                quoted(normalize_spec("python" + (wheel.requires_python or ""))),
                 "pip",
             ],
             "run": [
-                quoted(normalize_spec("python" + wheel.requires_python)),
+                quoted(normalize_spec("python" + (wheel.requires_python or ""))),
                 *run_requirements,
             ],
         },
