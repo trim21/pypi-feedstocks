@@ -282,3 +282,7 @@ output/
 
 .task/
 taskfile.yaml
+
+# pixi environments
+.pixi
+*.egg-info
