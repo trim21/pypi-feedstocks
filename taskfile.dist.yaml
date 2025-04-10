@@ -15,4 +15,3 @@ tasks:
         --channel=conda-forge \
         --channel=https://repo.prefix.dev/pypi-mirrors \
         --recipe-dir=packages
-
