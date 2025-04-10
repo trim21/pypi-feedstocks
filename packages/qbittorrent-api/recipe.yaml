@@ -18,10 +18,10 @@ requirements:
   build:
     - nushell
   host:
-    - python ==${{python}}
+    - python ==${{python_build}}
     - pip
   run:
-    - python >=${{python}}
+    - python >=${{python_min}}
     - requests
     - packaging
 

@@ -8,5 +8,8 @@ c_compiler:
   - if: osx
     then: clang
 
-python:
+python_build:
   - '3.10'
+
+python_min:
+  - '3.9'
