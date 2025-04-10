@@ -6,7 +6,17 @@ on:
       - 'master'
 
 jobs:
+  # sleep some time before we build packages
+  # channel may still processing newly uploaded package
+  # give they some time,
+  # so rattler-build can see packages in repodata.json
+  sleep:
+    runs-on: 'ubuntu-24.04'
+    steps:
+      - run: sleep 600
+
   conda:
+    needs: sleep
     uses: ./.github/workflows/_build_conda.yaml
 
   upload-conda:
