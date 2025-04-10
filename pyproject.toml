@@ -5,13 +5,13 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.9"
 dependencies = [
-  "click>=8.1.8",
+  "click==8.1.8",
   "dprint-py==0.49.1.2",
-  "httpx>=0.28.1",
-  "msgspec>=0.19.0",
-  "packaging>=24.2",
-  "pkginfo>=1.12.1.2",
-  "py-rattler>=0.11.0",
+  "httpx==0.28.1",
+  "msgspec==0.19.0",
+  "packaging==24.2",
+  "pkginfo==1.12.1.2",
+  "py-rattler==0.11.0",
   "pyyaml==6.0.2",
 ]
 
