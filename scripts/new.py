@@ -1,16 +1,15 @@
-from packaging.version import Version
+import dataclasses
 import pathlib
 from typing import Any, Optional
-import msgspec
-from rattler import MatchSpec
-
 
 import click
 import httpx
-
-import dataclasses
-
+import msgspec
+import pkginfo
 import yaml
+from packaging.requirements import Requirement
+from packaging.version import Version
+from rattler import MatchSpec
 
 
 @dataclasses.dataclass(frozen=True, slots=True, kw_only=True)
@@ -31,9 +30,9 @@ class Release(msgspec.Struct):
     md5_digest: str
     package_type: str = msgspec.field(name="packagetype")
     python_version: str
-    requires_python: Any
     size: int
     url: str
+    requires_python: str = ""
     yanked: Optional[bool] = None
     yanked_reason: Optional[Any] = None
 
@@ -57,11 +56,12 @@ class quoted(str):
 
 yaml.add_representer(quoted, quoted_presenter)
 
+client = httpx.Client()
+
 
 @click.command()
 @click.argument("packages", required=True, nargs=-1)
 def main(packages: list[str]):
-    client = httpx.Client()
 
     for package in packages:
         data = client.get(f"https://pypi.org/pypi/{package}/json")
@@ -89,6 +89,24 @@ def build_recipe(pkg: Pypi) -> Any:
 
     wheel = latest_releases[0]
 
+    cache = project_root.joinpath(".cache")
+    wheel_path = cache.joinpath(wheel.filename)
+
+    if (not wheel_path.exists()) or (wheel_path.stat().st_size != wheel.size):
+        cache.mkdir(exist_ok=True)
+        r = client.get(wheel.url)
+        cache.joinpath(wheel.filename).write_bytes(r.content)
+
+    bdist = pkginfo.wheel.Wheel(str(cache.joinpath(wheel.filename)))
+
+    run_requirements = []
+
+    for require in bdist.requires_dist:
+        req = Requirement(require)
+        if req.marker:
+            continue
+        run_requirements.append(quoted(normalize_spec(str(req))))
+
     return {
         "context": {"name": quoted(pkg.info.name), "version": quoted(latest_version)},
         "package": {
@@ -113,6 +131,7 @@ def build_recipe(pkg: Pypi) -> Any:
             ],
             "run": [
                 quoted(normalize_spec("python" + wheel.requires_python)),
+                *run_requirements,
             ],
         },
         "tests": [{"python": {"imports": [pkg.info.name.replace("-", "_")]}}],

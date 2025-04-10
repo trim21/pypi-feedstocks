@@ -169,6 +169,15 @@ wheels = [
 ]
 
 [[package]]
+name = "pkginfo"
+version = "1.12.1.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/24/03/e26bf3d6453b7fda5bd2b84029a426553bb373d6277ef6b5ac8863421f87/pkginfo-1.12.1.2.tar.gz", hash = "sha256:5cd957824ac36f140260964eba3c6be6442a8359b8c48f4adf90210f33a04b7b", size = 451828 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fa/3d/f4f2ba829efb54b6cd2d91349c7463316a9cc55a43fc980447416c88540f/pkginfo-1.12.1.2-py3-none-any.whl", hash = "sha256:c783ac885519cab2c34927ccfa6bf64b5a704d7c69afaea583dd9b7afe969343", size = 32717 },
+]
+
+[[package]]
 name = "py-rattler"
 version = "0.11.0"
 source = { registry = "https://pypi.org/simple" }
@@ -200,6 +209,7 @@ dependencies = [
     { name = "httpx" },
     { name = "msgspec" },
     { name = "packaging" },
+    { name = "pkginfo" },
     { name = "py-rattler" },
     { name = "pyyaml" },
 ]
@@ -211,6 +221,7 @@ requires-dist = [
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "msgspec", specifier = ">=0.19.0" },
     { name = "packaging", specifier = ">=24.2" },
+    { name = "pkginfo", specifier = ">=1.12.1.2" },
     { name = "py-rattler", specifier = ">=0.11.0" },
     { name = "pyyaml", specifier = "==6.0.2" },
 ]

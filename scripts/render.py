@@ -1,19 +1,16 @@
-import yaml
 import pathlib
+
+import yaml
 
 project_root = pathlib.Path(__file__).parent.parent
 
+packages = []
 
-packages = project_root.joinpath("packages")
-
-
-outputs = []
-
-for pkg in packages.rglob("recipe.yaml"):
-    outputs.append(yaml.safe_load(pkg.read_bytes()))
+for pkg in project_root.joinpath("packages").rglob("recipe.yaml"):
+    packages.append(yaml.safe_load(pkg.read_bytes()))
 
 
-outputs.sort(key=lambda x: x["context"]["name"])
+packages.sort(key=lambda x: x["context"]["name"])
 
 
 readme = project_root.joinpath("readme.in").read_text("utf-8").strip()
@@ -25,7 +22,7 @@ lines = [
     "| :--: | :-----: | :---: |",
 ]
 
-for pkg in outputs:
+for pkg in packages:
     lines.append(
         "| {name} | {version} | {build} |".format(
             **pkg["context"], build=pkg["build"]["number"]
