@@ -18,10 +18,10 @@ requirements:
   build:
     - nushell
   host:
-    - python
+    - python ==${{python}}
     - pip
   run:
-    - python
+    - python >=${{python}}
 
     - requests
     - certifi

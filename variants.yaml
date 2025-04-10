@@ -7,3 +7,6 @@ c_compiler:
     then: gcc
   - if: osx
     then: clang
+
+python:
+  - '3.10'
