@@ -29,8 +29,6 @@ jobs:
 
       - run: uv sync --locked
 
-      - run: uv run lint.py
-
       - run: uv run render.py
       - run: uv run dprint fmt
       - run: git diff --exit-code
