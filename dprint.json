@@ -1,8 +1,7 @@
 {
   "toml": {},
   "yaml": {
-    "formatComments": true,
-    "quotes": "preferSingle"
+    "formatComments": true
   },
   "excludes": [
     ".venv/**",

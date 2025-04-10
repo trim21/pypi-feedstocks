@@ -10,7 +10,7 @@ on:
       - readme.md
 
 concurrency:
-  group: '${{ github.workflow }}-${{ github.ref }}'
+  group: "${{ github.workflow }}-${{ github.ref }}"
   cancel-in-progress: true
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
   lint:
     needs:
       - conda
-    runs-on: 'ubuntu-24.04'
+    runs-on: "ubuntu-24.04"
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
@@ -37,6 +37,6 @@ jobs:
     needs:
       - lint
       - conda
-    runs-on: 'ubuntu-24.04'
+    runs-on: "ubuntu-24.04"
     steps:
-      - run: 'echo success'
+      - run: "echo success"

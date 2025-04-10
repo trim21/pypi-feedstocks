@@ -48,7 +48,7 @@ project_root = pathlib.Path(__file__).parent.parent
 
 
 def quoted_presenter(dumper, data):
-    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="'")
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
 
 
 class quoted(str):
