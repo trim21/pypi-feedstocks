@@ -14,8 +14,6 @@ jobs:
         with:
           pixi-version: v0.44.0
 
-      - run: pixi global install rattler-build
-
       - run: |
           rattler-build build \
             --wrap-log-lines=false \

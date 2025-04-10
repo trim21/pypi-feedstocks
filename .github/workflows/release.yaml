@@ -28,7 +28,5 @@ jobs:
         with:
           pixi-version: v0.44.0
 
-      - run: pixi global install rattler-build
-
       - name: Upload all packages
         run: bash ci/upload.bash
