@@ -15,7 +15,7 @@ jobs:
           pixi-version: v0.44.0
 
       - run: |
-          rattler-build build \
+          pixi run rattler-build build \
             --wrap-log-lines=false \
             --log-style=plain \
             --skip-existing=all \
