@@ -13,6 +13,7 @@ dependencies = [
   "py-rattler==0.11.0",
   "pydantic>=2.11.3",
   "pyyaml==6.0.2",
+  "zstd>=1.5.6.7",
 ]
 
 [tool.ruff.lint]
