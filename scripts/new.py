@@ -70,7 +70,7 @@ def main(packages: list[str]):
         recipe = project_root.joinpath("packages", pkg.info.name, "recipe.yaml")
         recipe.parent.mkdir(exist_ok=True)
         recipe.write_text(
-            yaml.dump(build_recipe(pkg)),
+            yaml.dump(build_recipe(pkg), sort_keys=False),
             encoding="utf8",
         )
 

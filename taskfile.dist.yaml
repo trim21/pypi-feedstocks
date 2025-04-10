@@ -6,6 +6,11 @@ tasks:
       - cmd: python scripts/render.py
       - cmd: dprint fmt
 
+  new:
+    cmds:
+      - cmd: python scripts/new.py {{ .CLI_ARGS }}
+      - cmd: dprint fmt
+
   build:
     cmd: |
       rattler-build build \
