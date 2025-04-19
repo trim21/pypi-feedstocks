@@ -319,7 +319,7 @@ requires-dist = [
     { name = "click", specifier = "==8.1.8" },
     { name = "dprint-py", specifier = "==0.49.1.2" },
     { name = "httpx", specifier = "==0.28.1" },
-    { name = "jmespath", specifier = ">=1.0.1" },
+    { name = "jmespath", specifier = "==1.0.1" },
     { name = "packaging", specifier = "==25.0" },
     { name = "pkginfo", specifier = "==1.12.1.2" },
     { name = "py-rattler", specifier = "==0.11.0" },
