@@ -9,17 +9,14 @@ packages = []
 for pkg in project_root.joinpath("packages").rglob("recipe.yaml"):
     packages.append(yaml.safe_load(pkg.read_bytes()))
 
-
 packages.sort(key=lambda x: x["context"]["name"])
 
-
 readme = project_root.joinpath("readme.in").read_text("utf-8").strip()
-
 
 lines = [
     "",
     "| pypi | version | build |",
-    "| :--: | :-----: | :---: |",
+    "|:----:|:-------:|:-----:|",
 ]
 
 for pkg in packages:
@@ -28,7 +25,6 @@ for pkg in packages:
             **pkg["context"], build=pkg["build"]["number"]
         )
     )
-
 
 project_root.joinpath("readme.md").write_text(
     readme + "\n".join(lines), encoding="utf-8"

@@ -1,6 +1,5 @@
-import dataclasses
 import pathlib
-from typing import Annotated, Any, Optional
+from typing import Any
 
 import click
 import httpx
@@ -9,40 +8,8 @@ import pydantic
 import yaml
 from packaging.requirements import Requirement
 from packaging.version import Version
-from rattler import MatchSpec
 
-
-@dataclasses.dataclass(frozen=True, slots=True, kw_only=True)
-class PypiInfo:
-    name: str
-    author: str | None
-    author_email: str | None
-    description: str
-    home_page: str | None
-    project_url: str | None
-
-
-@dataclasses.dataclass(frozen=True, slots=True, kw_only=True)
-class Release:
-    # comment_text: str
-    # downloads: int
-    filename: str
-    has_sig: bool
-    md5_digest: str
-    package_type: Annotated[str, pydantic.Field(alias="packagetype")]
-    python_version: str
-    size: int
-    url: str
-    requires_python: str | None
-    yanked: Optional[bool] = None
-    yanked_reason: Optional[Any] = None
-
-
-@dataclasses.dataclass(frozen=True, slots=True, kw_only=True)
-class Pypi:
-    info: PypiInfo
-    releases: dict[str, list[Release]]
-
+from .common import Pypi, normalize_spec
 
 project_root = pathlib.Path(__file__).parent.parent
 
@@ -139,10 +106,6 @@ def build_recipe(pkg: Pypi) -> Any:
         },
         "tests": [{"python": {"imports": [pkg.info.name.replace("-", "_")]}}],
     }
-
-
-def normalize_spec(s: str) -> str:
-    return str(MatchSpec(s))
 
 
 if __name__ == "__main__":

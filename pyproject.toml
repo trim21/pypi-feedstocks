@@ -1,19 +1,27 @@
+[build-system]
+requires = ["flit-core==3.11.0"]
+build-backend = "flit_core.buildapi"
+
 [project]
 name = "pypi-feedstocks"
 version = "0.1.0"
 description = "Add your description here"
-readme = "README.md"
+readme = "readme.md"
 requires-python = ">=3.9"
 dependencies = [
   "click==8.1.8",
   "dprint-py==0.49.1.2",
   "httpx==0.28.1",
+  "jmespath>=1.0.1",
   "packaging==25.0",
   "pkginfo==1.12.1.2",
   "py-rattler==0.11.0",
   "pydantic==2.11.3",
   "pyyaml==6.0.2",
 ]
+
+[tool.flit.module]
+name = 'scripts'
 
 [tool.ruff.lint]
 extend-select = ['I']
