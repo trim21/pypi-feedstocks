@@ -50,6 +50,7 @@ def main(package: str):
                 ]
             ),
             encoding="utf-8",
+            newline="\n",
         )
         return
 
@@ -71,7 +72,7 @@ def main(package: str):
         "source.sha256",
     )
 
-    recipe_file.write_text(with_new_source_sha256)
+    recipe_file.write_text(with_new_source_sha256, newline="\n")
 
 
 def update_object_patch(old_content: str, new_value: str, object_path: str) -> str:
