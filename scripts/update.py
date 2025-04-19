@@ -4,6 +4,7 @@ from typing import Any
 
 import click
 import httpx
+import jmespath
 import pydantic
 import yaml
 
@@ -16,8 +17,7 @@ client = httpx.Client()
 
 @click.command()
 @click.argument("package", required=True, nargs=1)
-@click.argument("version", required=True, nargs=1)
-def main(package: str, version: str):
+def main(package: str):
     data = client.get(f"https://pypi.org/pypi/{package}/json")
     pkg = pydantic.TypeAdapter(Pypi).validate_json(data.text)
     wheels = [x for x in pkg.releases[pkg.info.version] if x.filename.endswith(".whl")]
@@ -38,7 +38,9 @@ def main(package: str, version: str):
 
     if "source" not in recipe:
         recipe_file.write_text(
-            recipe_file.read_text(encoding="utf8")
+            update_object_patch(
+                recipe_file.read_text("utf8"), pkg.info.version, "context.version"
+            )
             + "\n\n"
             + "\n".join(
                 [
@@ -50,6 +52,49 @@ def main(package: str, version: str):
             encoding="utf-8",
         )
         return
+
+    with_new_version = update_object_patch(
+        recipe_file.read_text(encoding="utf8"),
+        pkg.info.version,
+        "context.version",
+    )
+
+    with_new_source_url = update_object_patch(
+        with_new_version,
+        url,
+        "source.url",
+    )
+
+    with_new_source_sha256 = update_object_patch(
+        with_new_source_url,
+        sha256,
+        "source.sha256",
+    )
+
+    recipe_file.write_text(with_new_source_sha256)
+
+
+def update_object_patch(old_content: str, new_value: str, object_path: str) -> str:
+    recipe = yaml.safe_load(old_content)
+    current_value = jmespath.search(object_path, recipe)
+    if not isinstance(current_value, str):
+        raise ValueError(
+            f"expecting to update str, got {current_value!r} instead: {object_path=!r}"
+        )
+
+    if old_content.count(current_value) == 1:
+        new_content = old_content.replace(current_value, new_value)
+        assert jmespath.search(object_path, yaml.safe_load(new_content)) == new_value
+        return new_content
+
+    s = old_content.split(current_value)
+
+    for i in range(1, len(s)):
+        new_content = current_value.join(s[:i]) + new_value + current_value.join(s[i:])
+        if jmespath.search(object_path, yaml.safe_load(new_content)) == new_value:
+            return new_content
+
+    raise Exception("failed to update content")
 
 
 if __name__ == "__main__":

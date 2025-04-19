@@ -22,14 +22,14 @@ requirements:
     - pip
   run:
     - python >=${{python_min}}
-    - requests
+    - requests >=2.16.0
+    - urllib3 >=1.24.2
     - packaging
 
 tests:
   - python:
       imports:
         - qbittorrentapi
-
 
 source:
   url: https://files.pythonhosted.org/packages/72/2d/f83a60b39e4c81a42d9925b9c63910051d57c4df46c933181ff4a969fb96/qbittorrent_api-2025.4.0-py3-none-any.whl
