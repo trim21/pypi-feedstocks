@@ -1,0 +1,3 @@
+[submodule "vendor/parselmouth"]
+	path = vendor/parselmouth
+	url = https://github.com/prefix-dev/parselmouth.git

@@ -5,10 +5,13 @@ from typing import Any
 import click
 import httpx
 import jmespath
+import pkginfo
 import pydantic
 import yaml
+from packaging.requirements import Requirement
+from rattler import MatchSpec
 
-from scripts.common import Pypi
+from scripts.common import Pypi, normalize_spec
 
 project_root = pathlib.Path(__file__).parent.parent
 
@@ -26,26 +29,50 @@ def main(package: str):
 
     wheel = wheels[0]
 
-    url = wheel.url
-    if wheel.digests.sha256:
-        sha256 = wheel.digests.sha256
+    cache_wheel_name = project_root.joinpath(".cache").joinpath(wheel.filename)
+    cache_wheel_name.parent.mkdir(exist_ok=True)
+
+    if cache_wheel_name.exists() and cache_wheel_name.stat().st_size == wheel.size:
+        wheel_content = cache_wheel_name.read_bytes()
     else:
-        sha256 = hashlib.sha256(client.get(url).content).hexdigest()
+        wheel_content = client.get(wheel.url).content
+        cache_wheel_name.write_bytes(wheel_content)
+
+    sha256 = hashlib.sha256(wheel_content).hexdigest()
+    if wheel.digests.sha256:
+        assert (
+            sha256 == wheel.digests.sha256
+        ), f"sha256 should match, expecting {wheel.digests.sha256}, got {sha256} instead"
+
+    bdist = pkginfo.wheel.Wheel(str(cache_wheel_name))
+
+    run_requirements = []
+
+    if bdist.requires_python:
+        run_requirements.append(normalize_spec(str("python " + bdist.requires_python)))
+
+    for require in bdist.requires_dist:
+        req = Requirement(require)
+        if req.marker:
+            continue
+        run_requirements.append(normalize_spec(str(req)))
 
     recipe_file = project_root.joinpath("packages", pkg.info.name, "recipe.yaml")
 
-    recipe: dict[str, Any] = yaml.safe_load(recipe_file.read_text(encoding="utf-8"))
+    recipe_content = recipe_file.read_text("utf8")
+
+    recipe_content = update_run_requirements(recipe_content, run_requirements)
+
+    recipe: dict[str, Any] = yaml.safe_load(recipe_content)
 
     if "source" not in recipe:
         recipe_file.write_text(
-            update_object_patch(
-                recipe_file.read_text("utf8"), pkg.info.version, "context.version"
-            )
+            update_object_patch(recipe_content, pkg.info.version, "context.version")
             + "\n\n"
             + "\n".join(
                 [
                     "source:",
-                    "  url: " + url,
+                    "  url: " + wheel.url,
                     "  sha256: " + sha256,
                 ]
             ),
@@ -55,14 +82,14 @@ def main(package: str):
         return
 
     with_new_version = update_object_patch(
-        recipe_file.read_text(encoding="utf8"),
+        recipe_content,
         pkg.info.version,
         "context.version",
     )
 
     with_new_source_url = update_object_patch(
         with_new_version,
-        url,
+        wheel.url,
         "source.url",
     )
 
@@ -96,6 +123,29 @@ def update_object_patch(old_content: str, new_value: str, object_path: str) -> s
             return new_content
 
     raise Exception("failed to update content")
+
+
+def update_run_requirements(content: str, from_pypi: list[str]) -> str:
+    new_deps = {MatchSpec(r).name.normalized: r for r in from_pypi}
+
+    run_requires = yaml.safe_load(content)["requirements"]["run"]
+
+    for i, r in enumerate(run_requires):
+        m = MatchSpec(r)
+        if m.name.normalized in new_deps:
+            expected = new_deps[m.name.normalized]
+            if r != expected:
+                print(f"update requirements.run {r!r} => {expected!r}")
+                content = update_object_patch(
+                    content,
+                    expected,
+                    f"requirements.run[{i}]",
+                )
+            continue
+
+        raise ValueError(f"extra requirements {r!r}, please remove manually")
+
+    return content
 
 
 if __name__ == "__main__":

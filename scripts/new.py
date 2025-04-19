@@ -8,9 +8,8 @@ import pydantic
 import yaml
 from packaging.requirements import Requirement
 from packaging.version import Version
-from rattler import MatchSpec
 
-from .common import Pypi
+from .common import Pypi, normalize_spec
 
 project_root = pathlib.Path(__file__).parent.parent
 
@@ -107,10 +106,6 @@ def build_recipe(pkg: Pypi) -> Any:
         },
         "tests": [{"python": {"imports": [pkg.info.name.replace("-", "_")]}}],
     }
-
-
-def normalize_spec(s: str) -> str:
-    return str(MatchSpec(s))
 
 
 if __name__ == "__main__":

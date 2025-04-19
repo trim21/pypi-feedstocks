@@ -2,6 +2,7 @@ import dataclasses
 from typing import Annotated, Any, Optional
 
 import pydantic
+from rattler import MatchSpec
 
 
 @dataclasses.dataclass(frozen=True, slots=True, kw_only=True)
@@ -41,3 +42,7 @@ class Release:
 class Pypi:
     info: PypiInfo
     releases: dict[str, list[Release]]
+
+
+def normalize_spec(s: str) -> str:
+    return str(MatchSpec(s))
