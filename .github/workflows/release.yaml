@@ -44,3 +44,5 @@ jobs:
 
       - name: Upload all packages
         run: pixi run bash ci/upload.bash
+        env:
+          ANACONDA_API_KEY: "${{ secrets.ANACONDA_API_KEY }}"
