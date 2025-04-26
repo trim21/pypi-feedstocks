@@ -2,7 +2,10 @@
 
 release some pypi packages to conda ecosystem
 
-<https://prefix.dev/channels/pypi-mirrors>
+you can find packages at these channels:
+
+- <https://anaconda.org/pypi-mirrors>
+- <https://prefix.dev/channels/pypi-mirrors>
 
 ## policy
 
