@@ -15,6 +15,7 @@ readme = project_root.joinpath("readme.in").read_text("utf-8").strip()
 
 lines = [
     "",
+    "",
     "| pypi | version | build |",
     "|:----:|:-------:|:-----:|",
 ]

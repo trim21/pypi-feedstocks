@@ -10,6 +10,7 @@ release some pypi packages to conda ecosystem
 - if the package is also packed by conda-forge, we will drop it from here
 
 ## packages
+
 | pypi | version | build |
 |:----:|:-------:|:-----:|
 | durationpy | 0.9 | 1 |
