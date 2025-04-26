@@ -173,7 +173,7 @@ def update_host_requirements(pkg: str, content: str, requires_python: str) -> st
 def update_run_requirements(pkg: str, content: str, from_pypi: list[str]) -> str:
     print(pkg, from_pypi)
     new_deps = {
-        name_alias.get(name, name): value
+        name_alias.get(name, name): replace_pkg_name(value)
         for name, value in {MatchSpec(r).name.normalized: r for r in from_pypi}.items()
     }
 
@@ -203,6 +203,14 @@ def update_run_requirements(pkg: str, content: str, from_pypi: list[str]) -> str
         )
 
     return content
+
+
+def replace_pkg_name(spec: str):
+    m = MatchSpec(spec)
+    version = m.version
+    if not version:
+        return name_alias.get(m.name.normalized, m.name.normalized)
+    return name_alias.get(m.name.normalized, m.name.normalized) + " " + version
 
 
 name_alias = {"opencv-python": "py-opencv"}

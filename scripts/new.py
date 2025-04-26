@@ -81,13 +81,13 @@ def build_recipe(pkg: Pypi) -> Any:
             "name": Quoted(pkg.info.name),
             "version": Quoted(latest_version),
         },
-        "source": {
-            "url": wheel.url,
-            "sha256": wheel.digests.sha256,
-        },
         "package": {
             "name": Quoted("${{ name }}"),
             "version": Quoted("${{ version }}"),
+        },
+        "source": {
+            "url": wheel.url,
+            "sha256": wheel.digests.sha256,
         },
         "build": {
             "noarch": "python",

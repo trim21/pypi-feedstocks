@@ -24,7 +24,7 @@ requirements:
     - python >=3.6,<3.13
 
     - pyclipper >=1.2.0
-    - opencv-python >=4.5.1.48
+    - py-opencv >=4.5.1.48
     - numpy <3.0.0,>=1.19.5
     - six >=1.15.0
     - shapely !=2.0.4,>=1.7.1
