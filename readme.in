@@ -6,7 +6,7 @@ release some pypi packages to conda ecosystem
 
 ## policy
 
-- only pure python package
-- if the package is also packed by conda-forge, we will drop it from here
+- Only pure python package, which means it has `*-py3-none-any.whl` wheel on pypi so we do not need to build anything.
+- If a package is also packed by conda-forge, we will drop it from here
 
 ## packages
