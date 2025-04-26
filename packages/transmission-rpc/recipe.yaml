@@ -8,26 +8,29 @@ package:
 
 build:
   noarch: python
-  number: 1
+  number: 2
   script:
     interpreter: nu
     content:
-      - "PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}"
+      - "${{ PYTHON }} -m pip install *.whl"
 
 requirements:
   build:
     - nushell
   host:
-    - python ==${{python_build}}
+    - python~=3.8
     - pip
   run:
-    - python >=${{python_min}}
+    - python ~=3.8
 
-    - requests
-    - certifi
-    - typing_extensions>=4.5.0
+    - requests ~=2.23
+    - typing-extensions >=4.5.0
 
 tests:
   - python:
       imports:
         - transmission_rpc
+
+source:
+  url: https://files.pythonhosted.org/packages/9f/4c/6319bcb1026e3f78c9cbcc9c24de77a76f09954e67ffc5ebfc29f7ce4b90/transmission_rpc-7.0.11-py3-none-any.whl
+  sha256: 94fd008b54640dd9fff14d7ae26848f901e9d130a70950b8930f9b395988914f

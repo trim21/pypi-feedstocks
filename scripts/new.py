@@ -18,11 +18,11 @@ def quoted_presenter(dumper, data):
     return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
 
 
-class quoted(str):
+class Quoted(str):
     pass
 
 
-yaml.add_representer(quoted, quoted_presenter)
+yaml.add_representer(Quoted, quoted_presenter)
 
 client = httpx.Client()
 
@@ -30,7 +30,6 @@ client = httpx.Client()
 @click.command()
 @click.argument("packages", required=True, nargs=-1)
 def main(packages: list[str]):
-
     for package in packages:
         data = client.get(f"https://pypi.org/pypi/{package}/json")
         pkg = pydantic.TypeAdapter(Pypi).validate_json(data.text)
@@ -75,32 +74,37 @@ def build_recipe(pkg: Pypi) -> Any:
         req = Requirement(require)
         if req.marker:
             continue
-        run_requirements.append(quoted(normalize_spec(str(req))))
+        run_requirements.append(Quoted(normalize_spec(str(req))))
 
     return {
-        "context": {"name": quoted(pkg.info.name), "version": quoted(latest_version)},
+        "context": {
+            "name": Quoted(pkg.info.name),
+            "version": Quoted(latest_version),
+        },
         "package": {
-            "name": quoted("${{ name }}"),
-            "version": quoted("${{ version }}"),
+            "name": Quoted("${{ name }}"),
+            "version": Quoted("${{ version }}"),
+        },
+        "source": {
+            "url": wheel.url,
+            "sha256": wheel.digests.sha256,
         },
         "build": {
             "noarch": "python",
             "number": 0,
             "script": {
                 "interpreter": "nu",
-                "content": quoted(
-                    "PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}"
-                ),
+                "content": Quoted("${{ PYTHON }} -m pip install *.whl"),
             },
         },
         "requirements": {
             "build": ["nushell"],
             "host": [
-                quoted(normalize_spec("python" + (wheel.requires_python or ""))),
+                Quoted(normalize_spec("python" + (wheel.requires_python or ""))),
                 "pip",
             ],
             "run": [
-                quoted(normalize_spec("python" + (wheel.requires_python or ""))),
+                Quoted(normalize_spec("python" + (wheel.requires_python or ""))),
                 *run_requirements,
             ],
         },

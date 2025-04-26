@@ -8,7 +8,7 @@ package:
 
 build:
   noarch: python
-  number: 1
+  number: 2
   script:
     interpreter: nu
     content:
@@ -18,13 +18,18 @@ requirements:
   build:
     - nushell
   host:
-    - python
+    - python~=3.8
     - pip
   run:
-    - python
-    - structlog==25.1.0
+    - python ~=3.8
+    - structlog ==25.1.0
+    - typing-extensions
 
 tests:
   - python:
       imports:
         - sslog
+
+source:
+  url: https://files.pythonhosted.org/packages/f7/2d/34c5732c2a9242312fc809f09a7e3d856320b7ebcb476678cc24e67fe45f/sslog-0.0.0a52-py3-none-any.whl
+  sha256: 9085e86f59fc688620d427bd5238eea4a43163f0dde9b326376309a180356126
