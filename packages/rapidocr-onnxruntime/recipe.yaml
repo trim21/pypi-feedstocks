@@ -12,24 +12,24 @@ build:
   script:
     interpreter: nu
     content:
-      - "PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}"
+      - "${{ PYTHON }} -m pip install *.whl"
 
 requirements:
   build:
     - nushell
   host:
-    - python >=3.6,<3.13
+    - python>=3.6,<3.13
     - pip
   run:
-    - python >=3.6, <3.13
+    - python >=3.6,<3.13
 
-    - pyclipper>=1.2.0
-    - py-opencv >=4.5.1.48
-    - numpy >=1.19.5,<3.0.0
-    - six>=1.15.0
-    - Shapely >=1.7.1,!=2.0.4
-    - PyYAML
-    - Pillow
+    - pyclipper >=1.2.0
+    - opencv-python >=4.5.1.48
+    - numpy <3.0.0,>=1.19.5
+    - six >=1.15.0
+    - shapely !=2.0.4,>=1.7.1
+    - pyyaml
+    - pillow
     - onnxruntime >=1.7.0
     - tqdm
 
@@ -37,3 +37,7 @@ tests:
   - python:
       imports:
         - rapidocr_onnxruntime
+
+source:
+  url: https://files.pythonhosted.org/packages/ba/12/1e5497183bdbe782dbb91bad1d0d2297dba4d2831b2652657f7517bfc6df/rapidocr_onnxruntime-1.4.4-py3-none-any.whl
+  sha256: 971d7d5f223a7a808662229df1ef69893809d8457d834e6373d3854bc1782cbf

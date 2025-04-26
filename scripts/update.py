@@ -64,11 +64,11 @@ def main(packages: list[str]):
                 normalize_spec(str("python " + bdist.requires_python))
             )
             recipe_content = update_host_requirements(
-                recipe_content, bdist.requires_python
+                package, recipe_content, bdist.requires_python
             )
         else:
             run_requirements.append("python")
-            recipe_content = update_host_requirements(recipe_content, "")
+            recipe_content = update_host_requirements(package, recipe_content, "")
 
         for require in bdist.requires_dist:
             req = Requirement(require)
@@ -76,7 +76,9 @@ def main(packages: list[str]):
                 continue
             run_requirements.append(normalize_spec(str(req)))
 
-        recipe_content = update_run_requirements(recipe_content, run_requirements)
+        recipe_content = update_run_requirements(
+            package, recipe_content, run_requirements
+        )
 
         recipe: dict[str, Any] = yaml.safe_load(recipe_content)
 
@@ -94,7 +96,7 @@ def main(packages: list[str]):
                 encoding="utf-8",
                 newline="\n",
             )
-            return
+            continue
 
         with_new_version = update_object_patch(
             recipe_content,
@@ -140,7 +142,7 @@ def update_object_patch(old_content: str, new_value: str, object_path: str) -> s
     raise Exception("failed to update content")
 
 
-def update_host_requirements(content: str, requires_python: str) -> str:
+def update_host_requirements(pkg: str, content: str, requires_python: str) -> str:
     run_requires = yaml.safe_load(content)["requirements"]["host"]
 
     new_deps = {
@@ -161,15 +163,27 @@ def update_host_requirements(content: str, requires_python: str) -> str:
                 )
             continue
 
-        raise ValueError(f"extra requirements {r!r}, please remove manually")
+        raise ValueError(
+            f"extra requirements.host {r!r} in {pkg}, please remove manually"
+        )
 
     return content
 
 
-def update_run_requirements(content: str, from_pypi: list[str]) -> str:
-    new_deps = {MatchSpec(r).name.normalized: r for r in from_pypi}
+def update_run_requirements(pkg: str, content: str, from_pypi: list[str]) -> str:
+    print(pkg, from_pypi)
+    new_deps = {
+        name_alias.get(name, name): value
+        for name, value in {MatchSpec(r).name.normalized: r for r in from_pypi}.items()
+    }
 
     run_requires = yaml.safe_load(content)["requirements"]["run"]
+
+    current_deps = {MatchSpec(r).name.normalized: r for r in run_requires}
+
+    for name, dep in new_deps.items():
+        if name not in current_deps:
+            raise ValueError(f"please add requirements.run {dep!r} to {pkg} manually")
 
     for i, r in enumerate(run_requires):
         m = MatchSpec(r)
@@ -184,9 +198,14 @@ def update_run_requirements(content: str, from_pypi: list[str]) -> str:
                 )
             continue
 
-        raise ValueError(f"extra requirements {r!r}, please remove manually")
+        raise ValueError(
+            f"extra requirements.run {r!r} in {pkg}, please remove manually"
+        )
 
     return content
+
+
+name_alias = {"opencv-python": "py-opencv"}
 
 
 if __name__ == "__main__":
