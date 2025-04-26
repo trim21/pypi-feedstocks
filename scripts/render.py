@@ -26,6 +26,4 @@ for pkg in packages:
         )
     )
 
-project_root.joinpath("readme.md").write_text(
-    readme + "\n".join(lines), encoding="utf-8"
-)
+project_root.joinpath("readme.md").write_bytes((readme + "\n".join(lines)).encode())
