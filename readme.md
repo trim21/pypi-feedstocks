@@ -13,8 +13,8 @@ release some pypi packages to conda ecosystem
 
 |         pypi         | version  | build |
 | :------------------: | :------: | :---: |
-|      durationpy      |   0.9    |   1   |
-|   qbittorrent-api    | 2025.4.1 |   0   |
+|      durationpy      |   0.9    |   2   |
+|   qbittorrent-api    | 2025.4.1 |   1   |
 | rapidocr-onnxruntime |  1.4.4   |   2   |
 |        sslog         | 0.0.0a52 |   1   |
-|   transmission-rpc   |  7.0.11  |   1   |
+|   transmission-rpc   |  7.0.11  |   2   |
