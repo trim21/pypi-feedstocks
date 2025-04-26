@@ -12,16 +12,16 @@ build:
   script:
     interpreter: nu
     content:
-      - "PIP_NO_INDEX=false ${{ PYTHON }} -m pip install --no-deps ${{ name }}==${{ version }}"
+      - "${{ PYTHON }} -m pip install *.whl"
 
 requirements:
   build:
     - nushell
   host:
-    - python ==${{python_build}}
+    - python ==3.9
     - pip
   run:
-    - python >=${{python_min}}
+    - python >=3.9
 
     - requests
     - certifi

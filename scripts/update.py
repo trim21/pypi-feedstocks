@@ -19,87 +19,102 @@ client = httpx.Client()
 
 
 @click.command()
-@click.argument("package", required=True, nargs=1)
-def main(package: str):
-    data = client.get(f"https://pypi.org/pypi/{package}/json")
-    pkg = pydantic.TypeAdapter(Pypi).validate_json(data.text)
-    wheels = [x for x in pkg.releases[pkg.info.version] if x.filename.endswith(".whl")]
-    if len(wheels) != 1:
-        raise Exception("expecting one wheels", wheels)
+@click.argument("packages", nargs=-1)
+def main(packages: list[str]):
+    if not packages:
+        packages = [f.name for f in project_root.joinpath("packages").iterdir()]
 
-    wheel = wheels[0]
+    for package in packages:
+        data = client.get(f"https://pypi.org/pypi/{package}/json")
+        pkg = pydantic.TypeAdapter(Pypi).validate_json(data.text)
 
-    cache_wheel_name = project_root.joinpath(".cache").joinpath(wheel.filename)
-    cache_wheel_name.parent.mkdir(exist_ok=True)
+        recipe_file = project_root.joinpath("packages", pkg.info.name, "recipe.yaml")
 
-    if cache_wheel_name.exists() and cache_wheel_name.stat().st_size == wheel.size:
-        wheel_content = cache_wheel_name.read_bytes()
-    else:
-        wheel_content = client.get(wheel.url).content
-        cache_wheel_name.write_bytes(wheel_content)
+        recipe_content = recipe_file.read_text("utf8")
 
-    sha256 = hashlib.sha256(wheel_content).hexdigest()
-    if wheel.digests.sha256:
-        assert (
-            sha256 == wheel.digests.sha256
-        ), f"sha256 should match, expecting {wheel.digests.sha256}, got {sha256} instead"
+        wheels = [
+            x for x in pkg.releases[pkg.info.version] if x.filename.endswith(".whl")
+        ]
+        if len(wheels) != 1:
+            raise Exception("expecting one wheels", wheels)
 
-    bdist = pkginfo.wheel.Wheel(str(cache_wheel_name))
+        wheel = wheels[0]
 
-    run_requirements = []
+        cache_wheel_name = project_root.joinpath(".cache").joinpath(wheel.filename)
+        cache_wheel_name.parent.mkdir(exist_ok=True)
 
-    if bdist.requires_python:
-        run_requirements.append(normalize_spec(str("python " + bdist.requires_python)))
+        if cache_wheel_name.exists() and cache_wheel_name.stat().st_size == wheel.size:
+            wheel_content = cache_wheel_name.read_bytes()
+        else:
+            wheel_content = client.get(wheel.url).content
+            cache_wheel_name.write_bytes(wheel_content)
 
-    for require in bdist.requires_dist:
-        req = Requirement(require)
-        if req.marker:
-            continue
-        run_requirements.append(normalize_spec(str(req)))
+        sha256 = hashlib.sha256(wheel_content).hexdigest()
+        if wheel.digests.sha256:
+            assert (
+                sha256 == wheel.digests.sha256
+            ), f"sha256 should match, expecting {wheel.digests.sha256}, got {sha256} instead"
 
-    recipe_file = project_root.joinpath("packages", pkg.info.name, "recipe.yaml")
+        bdist = pkginfo.wheel.Wheel(str(cache_wheel_name))
 
-    recipe_content = recipe_file.read_text("utf8")
+        run_requirements = []
 
-    recipe_content = update_run_requirements(recipe_content, run_requirements)
+        if bdist.requires_python:
+            run_requirements.append(
+                normalize_spec(str("python " + bdist.requires_python))
+            )
+            recipe_content = update_host_requirements(
+                recipe_content, bdist.requires_python
+            )
+        else:
+            run_requirements.append("python")
+            recipe_content = update_host_requirements(recipe_content, "")
 
-    recipe: dict[str, Any] = yaml.safe_load(recipe_content)
+        for require in bdist.requires_dist:
+            req = Requirement(require)
+            if req.marker:
+                continue
+            run_requirements.append(normalize_spec(str(req)))
 
-    if "source" not in recipe:
-        recipe_file.write_text(
-            update_object_patch(recipe_content, pkg.info.version, "context.version")
-            + "\n\n"
-            + "\n".join(
-                [
-                    "source:",
-                    "  url: " + wheel.url,
-                    "  sha256: " + sha256,
-                ]
-            ),
-            encoding="utf-8",
-            newline="\n",
+        recipe_content = update_run_requirements(recipe_content, run_requirements)
+
+        recipe: dict[str, Any] = yaml.safe_load(recipe_content)
+
+        if "source" not in recipe:
+            recipe_file.write_text(
+                update_object_patch(recipe_content, pkg.info.version, "context.version")
+                + "\n\n"
+                + "\n".join(
+                    [
+                        "source:",
+                        "  url: " + wheel.url,
+                        "  sha256: " + sha256,
+                    ]
+                ),
+                encoding="utf-8",
+                newline="\n",
+            )
+            return
+
+        with_new_version = update_object_patch(
+            recipe_content,
+            pkg.info.version,
+            "context.version",
         )
-        return
 
-    with_new_version = update_object_patch(
-        recipe_content,
-        pkg.info.version,
-        "context.version",
-    )
+        with_new_source_url = update_object_patch(
+            with_new_version,
+            wheel.url,
+            "source.url",
+        )
 
-    with_new_source_url = update_object_patch(
-        with_new_version,
-        wheel.url,
-        "source.url",
-    )
+        with_new_source_sha256 = update_object_patch(
+            with_new_source_url,
+            sha256,
+            "source.sha256",
+        )
 
-    with_new_source_sha256 = update_object_patch(
-        with_new_source_url,
-        sha256,
-        "source.sha256",
-    )
-
-    recipe_file.write_text(with_new_source_sha256, newline="\n")
+        recipe_file.write_text(with_new_source_sha256, newline="\n")
 
 
 def update_object_patch(old_content: str, new_value: str, object_path: str) -> str:
@@ -123,6 +138,32 @@ def update_object_patch(old_content: str, new_value: str, object_path: str) -> s
             return new_content
 
     raise Exception("failed to update content")
+
+
+def update_host_requirements(content: str, requires_python: str) -> str:
+    run_requires = yaml.safe_load(content)["requirements"]["host"]
+
+    new_deps = {
+        "python": "python" + requires_python,
+        "pip": "pip",
+    }
+
+    for i, r in enumerate(run_requires):
+        m = MatchSpec(r)
+        if m.name.normalized in new_deps:
+            expected = new_deps[m.name.normalized]
+            if r != expected:
+                print(f"update requirements.run {r!r} => {expected!r}")
+                content = update_object_patch(
+                    content,
+                    expected,
+                    f"requirements.host[{i}]",
+                )
+            continue
+
+        raise ValueError(f"extra requirements {r!r}, please remove manually")
+
+    return content
 
 
 def update_run_requirements(content: str, from_pypi: list[str]) -> str:
