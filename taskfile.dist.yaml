@@ -19,5 +19,4 @@ tasks:
         --skip-existing=all \
         --channel=conda-forge \
         --channel=https://repo.prefix.dev/pypi-mirrors \
-        --variant-config=variants.yaml \
         --recipe-dir=packages
