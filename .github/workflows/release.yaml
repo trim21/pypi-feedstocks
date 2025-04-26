@@ -10,9 +10,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # sleep some time before we build packages
-  # channel may still processing newly uploaded package
-  # give they some time,
+  # sleep some time before we build packages.
+  # channel may still be processing newly uploaded package
+  # give them some time,
   # so rattler-build can see packages in repodata.json
   sleep:
     runs-on: "ubuntu-24.04"
