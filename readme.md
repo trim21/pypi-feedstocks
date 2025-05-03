@@ -17,7 +17,7 @@ you can find packages at these channels:
 |         pypi         | version  | build |
 | :------------------: | :------: | :---: |
 |      durationpy      |   0.9    |   2   |
-|   qbittorrent-api    | 2025.4.1 |   1   |
+|   qbittorrent-api    | 2025.5.0 |   0   |
 | rapidocr-onnxruntime |  1.4.4   |   3   |
 |        sslog         | 0.0.0a52 |   2   |
 |   transmission-rpc   |  7.0.11  |   2   |
