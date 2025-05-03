@@ -1,6 +1,6 @@
 context:
   name: qbittorrent-api
-  version: "2025.4.1"
+  version: "2025.5.0"
 
 package:
   name: ${{ name }}
