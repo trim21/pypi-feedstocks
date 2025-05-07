@@ -8,8 +8,8 @@
   "customManagers": [
     {
       "customType": "jsonata",
-      "fileMatch": [
-        "^packages/.*/recipe\\.yaml$"
+      "managerFilePatterns": [
+        "packages/*/recipe.yaml"
       ],
       "fileFormat": "yaml",
       "matchStrings": [
