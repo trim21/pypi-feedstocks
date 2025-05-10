@@ -4,8 +4,8 @@ release some pypi packages to conda ecosystem
 
 you can find packages at these channels:
 
-- <https://anaconda.org/pypi-mirrors/repo> (recommended)
-- <https://prefix.dev/channels/pypi-mirrors> (daily mirrored from previous channel)
+- <https://prefix.dev/channels/pypi-mirrors> (recommended)
+- <https://anaconda.org/pypi-mirrors/repo> (daily mirrored from previous channel)
 
 ## policy
 
