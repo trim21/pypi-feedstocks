@@ -8,7 +8,7 @@ package:
 
 build:
   noarch: python
-  number: 3
+  number: 4
   script:
     interpreter: nu
     content:
@@ -41,3 +41,10 @@ tests:
 source:
   url: https://files.pythonhosted.org/packages/ba/12/1e5497183bdbe782dbb91bad1d0d2297dba4d2831b2652657f7517bfc6df/rapidocr_onnxruntime-1.4.4-py3-none-any.whl
   sha256: 971d7d5f223a7a808662229df1ef69893809d8457d834e6373d3854bc1782cbf
+
+about:
+  description: |
+    conda packaging of [https://pypi.org/project/rapidocr-onnxruntime/](https://pypi.org/project/rapidocr-onnxruntime/)
+
+  homepage: https://github.com/RapidAI/RapidOCR
+  repository: https://github.com/RapidAI/RapidOCR

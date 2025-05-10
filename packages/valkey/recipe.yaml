@@ -12,7 +12,7 @@ source:
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script:
     interpreter: nu
     content: "${{ PYTHON }} -m pip install *.whl"
@@ -31,3 +31,9 @@ tests:
   - python:
       imports:
         - valkey
+
+about:
+  description: |
+    conda packaging of [https://github.com/valkey-io/valkey-py](https://github.com/valkey-io/valkey-py)
+  homepage: https://github.com/valkey-io/valkey-py
+  repository: https://github.com/valkey-io/valkey-py
