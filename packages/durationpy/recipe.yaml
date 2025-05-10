@@ -8,7 +8,7 @@ package:
 
 build:
   noarch: python
-  number: 2
+  number: 3
   script:
     interpreter: nu
     content:
@@ -31,3 +31,9 @@ tests:
 source:
   url: https://files.pythonhosted.org/packages/4c/a3/ac312faeceffd2d8f86bc6dcb5c401188ba5a01bc88e69bed97578a0dfcd/durationpy-0.9-py3-none-any.whl
   sha256: e65359a7af5cedad07fb77a2dd3f390f8eb0b74cb845589fa6c057086834dd38
+
+about:
+  description: |
+    conda packaging of [https://github.com/icholy/durationpy](https://github.com/icholy/durationpy)
+  homepage: https://github.com/icholy/durationpy
+  repository: https://github.com/icholy/durationpy
