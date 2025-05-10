@@ -21,3 +21,4 @@ you can find packages at these channels:
 | rapidocr-onnxruntime |  1.4.4   |   3   |
 |        sslog         | 0.0.0a52 |   2   |
 |   transmission-rpc   |  7.0.11  |   2   |
+|        valkey        |  6.1.0   |   0   |

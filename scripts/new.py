@@ -9,7 +9,7 @@ import yaml
 from packaging.requirements import Requirement
 from packaging.version import Version
 
-from .common import Pypi, normalize_spec
+from scripts.common import Pypi, normalize_spec
 
 project_root = pathlib.Path(__file__).parent.parent
 
