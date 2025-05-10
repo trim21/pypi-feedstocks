@@ -42,7 +42,5 @@ jobs:
         with:
           pixi-version: v0.44.0
 
-      - name: Upload all packages
-        run: pixi run bash ci/upload.bash
-        env:
-          ANACONDA_API_KEY: "${{ secrets.ANACONDA_API_KEY }}"
+      - run: |
+          find ./dist/ -type f -name '*.conda' -print0 | xargs -r0 rattler-build upload prefix -c pypi-mirrors
