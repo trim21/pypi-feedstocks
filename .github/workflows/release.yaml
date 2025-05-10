@@ -17,7 +17,7 @@ jobs:
   sleep:
     runs-on: "ubuntu-24.04"
     steps:
-      - run: sleep 120
+      - run: sleep 60
 
   conda:
     needs: sleep
