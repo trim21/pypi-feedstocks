@@ -8,7 +8,7 @@ package:
 
 build:
   noarch: python
-  number: 0
+  number: 1
   script:
     interpreter: nu
     content:
@@ -34,3 +34,9 @@ tests:
 source:
   url: https://files.pythonhosted.org/packages/ad/b8/e8b19b8ffe626b2355660d7cfc578e51e0aa045964f14305875ec976f427/qbittorrent_api-2025.5.0-py3-none-any.whl
   sha256: 44d98791c98cf422fbd86bc19f7475ba4ca604a7d2729551867ec79be85cf4cd
+
+about:
+  description: |
+    conda packaging of [https://github.com/rmartin16/qbittorrent-api](https://github.com/rmartin16/qbittorrent-api)
+  homepage: https://github.com/rmartin16/qbittorrent-api
+  repository: https://github.com/rmartin16/qbittorrent-api

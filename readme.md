@@ -17,8 +17,8 @@ you can find packages at these channels:
 |         pypi         | version  | build |
 | :------------------: | :------: | :---: |
 |      durationpy      |   0.9    |   2   |
-|   qbittorrent-api    | 2025.5.0 |   0   |
-| rapidocr-onnxruntime |  1.4.4   |   3   |
+|   qbittorrent-api    | 2025.5.0 |   1   |
+| rapidocr-onnxruntime |  1.4.4   |   4   |
 |        sslog         | 0.0.0a52 |   2   |
-|   transmission-rpc   |  7.0.11  |   2   |
-|        valkey        |  6.1.0   |   0   |
+|   transmission-rpc   |  7.0.11  |   3   |
+|        valkey        |  6.1.0   |   1   |
