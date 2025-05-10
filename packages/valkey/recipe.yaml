@@ -17,10 +17,11 @@ requirements:
   build:
     - nushell
   host:
-    - "python >=3.8"
+    - "python >=3.9"
     - pip
   run:
-    - "python >=3.8"
+    - "python >=3.9"
+    - async-timeout>=4.0.3
 tests:
   - python:
       imports:
