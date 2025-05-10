@@ -35,5 +35,8 @@ source:
 about:
   description: |
     conda packaging of [https://github.com/icholy/durationpy](https://github.com/icholy/durationpy)
+
+    build by [https://github.com/trim21/pypi-feedstocks](https://github.com/trim21/pypi-feedstocks)
+
   homepage: https://github.com/icholy/durationpy
   repository: https://github.com/icholy/durationpy

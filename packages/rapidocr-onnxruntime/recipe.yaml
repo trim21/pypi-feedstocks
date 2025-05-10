@@ -46,5 +46,7 @@ about:
   description: |
     conda packaging of [https://pypi.org/project/rapidocr-onnxruntime/](https://pypi.org/project/rapidocr-onnxruntime/)
 
+    build by [https://github.com/trim21/pypi-feedstocks](https://github.com/trim21/pypi-feedstocks)
+
   homepage: https://github.com/RapidAI/RapidOCR
   repository: https://github.com/RapidAI/RapidOCR

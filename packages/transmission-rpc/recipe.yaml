@@ -38,5 +38,7 @@ source:
 about:
   description: |
     conda packaging of [https://github.com/trim21/transmission-rpc](https://github.com/trim21/transmission-rpc)
+
+    build by [https://github.com/trim21/pypi-feedstocks](https://github.com/trim21/pypi-feedstocks)
   homepage: https://github.com/trim21/transmission-rpc
   repository: https://github.com/trim21/transmission-rpc

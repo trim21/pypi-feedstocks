@@ -38,5 +38,8 @@ source:
 about:
   description: |
     conda packaging of [https://github.com/rmartin16/qbittorrent-api](https://github.com/rmartin16/qbittorrent-api)
+
+    build by [https://github.com/trim21/pypi-feedstocks](https://github.com/trim21/pypi-feedstocks)
+
   homepage: https://github.com/rmartin16/qbittorrent-api
   repository: https://github.com/rmartin16/qbittorrent-api
