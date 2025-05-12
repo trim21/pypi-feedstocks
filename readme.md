@@ -21,4 +21,7 @@ you can find packages at these channels:
 | rapidocr-onnxruntime |  1.4.4   |   4   |
 |        sslog         | 0.0.0a52 |   2   |
 |   transmission-rpc   |  7.0.11  |   3   |
-|        valkey        |  6.1.0   |   1   |
+
+## removed
+
+valkey: use https://github.com/conda-forge/valkey-py-feedstock

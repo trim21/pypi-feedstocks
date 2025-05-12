@@ -27,4 +27,10 @@ for pkg in packages:
         )
     )
 
+lines.extend(
+    [
+        "## removed",
+        "valkey: use https://github.com/conda-forge/valkey-py-feedstock",
+    ]
+)
 project_root.joinpath("readme.md").write_bytes((readme + "\n".join(lines)).encode())
