@@ -1,6 +1,6 @@
 context:
   name: durationpy
-  version: "0.9"
+  version: "0.10"
 
 package:
   name: ${{ name }}
@@ -8,7 +8,7 @@ package:
 
 build:
   noarch: python
-  number: 3
+  number: 0
   script:
     interpreter: nu
     content:
