@@ -38,10 +38,13 @@ jobs:
           path: dist
           merge-multiple: true
 
-      - uses: prefix-dev/setup-pixi@v0.8.8
+      - name: Install rattler-build
+        uses: jaxxstorm/action-install-gh-release@v2.1.0
         with:
-          pixi-version: v0.44.0
-          activate-environment: true
+          repo: prefix-dev/rattler-build
+          tag: v0.41.0
+        env:
+          GITHUB_TOKEN: "${{ github.token }}"
 
       - run: |
           find ./dist/ -type f -name '*.conda' -print0 | xargs -r0 rattler-build upload prefix -c pypi-mirrors
