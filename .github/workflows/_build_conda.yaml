@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
-      - name: Install gotestsum
+      - name: Install rattler-build
         uses: jaxxstorm/action-install-gh-release@v2.1.0
         with:
           repo: prefix-dev/rattler-build
