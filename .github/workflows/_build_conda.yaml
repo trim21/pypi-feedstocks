@@ -8,7 +8,7 @@ jobs:
     name: Build conda
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+      - uses: actions/checkout@v5
 
       - name: Install rattler-build
         uses: jaxxstorm/action-install-gh-release@v2.1.0
@@ -32,7 +32,7 @@ jobs:
 
       - run: ls ./output/
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@v4
         with:
           name: "conda-noarch"
           path: ./output/noarch/*.conda
