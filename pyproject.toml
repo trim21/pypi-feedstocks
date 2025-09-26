@@ -17,7 +17,7 @@ dependencies = [
   "pkginfo==1.12.1.2",
   "py-rattler==0.15.0",
   "pydantic==2.11.9",
-  "pyyaml==6.0.2",
+  "pyyaml==6.0.3",
 ]
 
 [tool.flit.module]
