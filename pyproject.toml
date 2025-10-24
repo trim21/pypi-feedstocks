@@ -7,7 +7,7 @@ name = "pypi-feedstocks"
 version = "0.1.0"
 description = "Add your description here"
 readme = "readme.md"
-requires-python = "==3.12.12"
+requires-python = "==3.14.0"
 dependencies = [
   "click==8.3.0",
   "dprint-py==0.50.2.0",
