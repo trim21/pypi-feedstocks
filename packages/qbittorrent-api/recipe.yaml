@@ -1,6 +1,6 @@
 context:
   name: qbittorrent-api
-  version: "2025.7.0"
+  version: "2025.11.0"
 
 package:
   name: ${{ name }}
@@ -32,8 +32,8 @@ tests:
         - qbittorrentapi
 
 source:
-  url: https://files.pythonhosted.org/packages/ad/b8/e8b19b8ffe626b2355660d7cfc578e51e0aa045964f14305875ec976f427/qbittorrent_api-2025.5.0-py3-none-any.whl
-  sha256: 44d98791c98cf422fbd86bc19f7475ba4ca604a7d2729551867ec79be85cf4cd
+  url: https://files.pythonhosted.org/packages/57/1a/66cd2daf0aa7c6809e2ff664b28d81e3381575cb96a4fe2a1410a3823ad3/qbittorrent_api-2025.11.0-py3-none-any.whl
+  sha256: 99f877df8e064f672624e6665bb79d4ceec3d3db8a00bf2fa2e8a6cd9241d2f6
 
 about:
   description: |
