@@ -38,3 +38,11 @@ jobs:
           title: "build: update meson wraps"
           token: "${{ secrets.PAT }}"
           base: "master"
+
+      - name: Notify failed build
+        uses: jayqi/failed-build-issue-action@v1
+        if: failure()
+        with:
+          github-token: ${{ github.token }}
+          always-create-new-issue: false
+          label-name: ci

@@ -206,7 +206,7 @@ def update_run_requirements(pkg: str, content: str, from_pypi: list[str]) -> str
 
 
 # TODO: use a pypi-conda mapping to fix names
-def replace_pkg_name(spec: str):
+def replace_pkg_name(spec: str) -> str:
     m = MatchSpec(spec)
     version = m.version
     if not version:
