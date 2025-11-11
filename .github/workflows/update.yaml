@@ -1,0 +1,40 @@
+name: release
+
+on:
+  push:
+    branches:
+      - "master"
+
+  schedule:
+    - cron: "16 7 * * *"
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: "ubuntu-24.04"
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version-file: "pyproject.toml"
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          activate-environment: true
+
+      - run: uv sync --locked
+
+      - run: python scripts/update.py
+      - run: python scripts/render.py
+      - run: dprint fmt
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: ci/meson-auto-update
+          title: "build: update meson wraps"
+          token: "${{ secrets.PAT }}"
+          base: "master"
