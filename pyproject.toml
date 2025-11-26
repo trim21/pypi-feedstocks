@@ -15,7 +15,7 @@ dependencies = [
   "jmespath==1.0.1",
   "packaging==25.0",
   "pkginfo==1.12.1.2",
-  "py-rattler==0.17.0",
+  "py-rattler==0.18.0",
   "pydantic==2.12.4",
   "pyyaml==6.0.3",
 ]
