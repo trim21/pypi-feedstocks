@@ -40,7 +40,7 @@ jobs:
         with:
           branch: ci/meson-auto-update
           title: "build: update packages"
-          token: "${{ secrets.PAT }}"
+          token: "${{ github.token }}"
           base: "master"
 
       - name: Notify failed build
