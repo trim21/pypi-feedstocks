@@ -32,8 +32,8 @@ tests:
         - qbittorrentapi
 
 source:
-  url: https://files.pythonhosted.org/packages/57/1a/66cd2daf0aa7c6809e2ff664b28d81e3381575cb96a4fe2a1410a3823ad3/qbittorrent_api-2025.11.0-py3-none-any.whl
-  sha256: 99f877df8e064f672624e6665bb79d4ceec3d3db8a00bf2fa2e8a6cd9241d2f6
+  url: https://files.pythonhosted.org/packages/b4/c5/b77517fb2179ec640034ed8850fee9f9dcff457daef7aeebaf6463cf962d/qbittorrent_api-2025.11.1-py3-none-any.whl
+  sha256: 6e60f1daa25232d48753d0e6860b0684092910b3fe16fbe449be7fa31caa687a
 
 about:
   description: |
